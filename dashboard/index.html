@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyscallShield Security Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(1200px, 94%);
+            margin: auto;
+            padding: 28px 0 40px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 26px;
+            margin-bottom: 24px;
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 16px;
+        }
+
+        .brand h1 {
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        .brand p {
+            color: #9ca3af;
+            margin-top: 6px;
+        }
+
+        .badge {
+            padding: 8px 14px;
+            border-radius: 20px;
+            background: #12351f;
+            color: #4ade80;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .section-title {
+            margin: 28px 0 14px;
+            font-size: 18px;
+        }
+
+        .system-grid,
+        .security-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .system-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .security-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .card-label {
+            color: #9ca3af;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .card-value {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .security-card {
+            min-height: 145px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 16px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .active {
+            color: #4ade80;
+        }
+
+        .active .dot {
+            background: #22c55e;
+        }
+
+        .warning {
+            color: #fbbf24;
+        }
+
+        .warning .dot {
+            background: #f59e0b;
+        }
+
+        .policy {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .list {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .tag {
+            padding: 7px 10px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 7px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .tests {
+            display: grid;
+            gap: 10px;
+        }
+
+        .test {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 17px;
+            background: #0f172a;
+            border: 1px solid #263244;
+            border-radius: 9px;
+        }
+
+        .pass {
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .events {
+            display: grid;
+            gap: 9px;
+        }
+
+        .event {
+            padding: 13px 16px;
+            background: #0f172a;
+            border-left: 3px solid #374151;
+            border-radius: 7px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .event.security {
+            border-left-color: #22c55e;
+        }
+
+        .event.warning {
+            border-left-color: #f59e0b;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            border: 0;
+            border-radius: 10px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #demoResult {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 9px;
+            background: #10261a;
+            color: #4ade80;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            color: #6b7280;
+            margin-top: 30px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+            .security-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .system-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .security-grid,
+            .policy {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <div class="brand">
+            <h1>🛡 SyscallShield</h1>
+            <p>Adaptive Linux Runtime Security Engine</p>
+        </div>
+
+        <div class="badge">
+            SYSTEM READY
+        </div>
+    </header>
+
+    <h2 class="section-title">System Information</h2>
+
+    <div class="system-grid">
+        <div class="card">
+            <div class="card-label">Operating System</div>
+            <div class="card-value">Ubuntu 24.04.3 LTS</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Architecture</div>
+            <div class="card-value">x86_64</div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Environment</div>
+            <div class="card-value">WSL2</div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Security Controls</h2>
+
+    <div class="security-grid">
+
+        <div class="card security-card">
+            <div class="card-label">Seccomp</div>
+            <div class="card-value">System Call Filtering</div>
+            <div class="status active">
+                <span class="dot"></span>
+                ACTIVE
+            </div>
+        </div>
+
+        <div class="card security-card">
+            <div class="card-label">Capabilities</div>
+            <div class="card-value">Privilege Reduction</div>
+            <div class="status active">
+                <span class="dot"></span>
+                ACTIVE
+            </div>
+        </div>
+
+        <div class="card security-card">
+            <div class="card-label">PID Namespace</div>
+            <div class="card-value">Process Isolation</div>
+            <div class="status warning">
+                <span class="dot"></span>
+                UNAVAILABLE
+            </div>
+        </div>
+
+        <div class="card security-card">
+            <div class="card-label">Protected Process</div>
+            <div class="card-value">Runtime Protection</div>
+            <div class="status active">
+                <span class="dot"></span>
+                COMPLETED
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="section-title">Security Policy</h2>
+
+    <div class="policy">
+
+        <div class="card">
+            <div class="card-label">Allowed System Calls</div>
+
+            <div class="list">
+                <span class="tag">read</span>
+                <span class="tag">write</span>
+                <span class="tag">exit</span>
+                <span class="tag">exit_group</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-label">Restricted System Calls</div>
+
+            <div class="list">
+                <span class="tag">ptrace</span>
+                <span class="tag">mount</span>
+                <span class="tag">reboot</span>
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="section-title">Security Tests</h2>
+
+    <div class="card tests">
+
+        <div class="test">
+            <span>ptrace restriction</span>
+            <span class="pass">✓ BLOCKED</span>
+        </div>
+
+        <div class="test">
+            <span>CAP_NET_RAW reduction</span>
+            <span class="pass">✓ DROPPED</span>
+        </div>
+
+        <div class="test">
+            <span>Protected process</span>
+            <span class="pass">✓ COMPLETED</span>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <button onclick="runSecurityCheck()">
+            RUN SECURITY CHECK
+        </button>
+
+        <div id="demoResult">
+            ✓ Security checks completed successfully
+        </div>
+    </div>
+
+    <h2 class="section-title">Runtime Events</h2>
+
+    <div class="card events">
+
+        <div class="event security">
+            SECURITY &nbsp; ptrace blocked — Operation not permitted
+        </div>
+
+        <div class="event security">
+            SECURITY &nbsp; CAP_NET_RAW dropped
+        </div>
+
+        <div class="event warning">
+            WARNING &nbsp; PID namespace unavailable in current environment
+        </div>
+
+        <div class="event">
+            INFO &nbsp;&nbsp;&nbsp;&nbsp; SyscallShield execution completed
+        </div>
+
+    </div>
+
+    <footer>
+        SyscallShield • C++17 • Linux • Seccomp • Capabilities • Namespaces
+    </footer>
+
+</div>
+
+<script>
+    function runSecurityCheck() {
+        const result = document.getElementById("demoResult");
+
+        result.style.display = "block";
+        result.textContent = "✓ Security checks completed successfully";
+
+        setTimeout(() => {
+            result.textContent =
+                "✓ Seccomp active • ✓ Capability reduction active • ✓ ptrace blocked";
+        }, 700);
+    }
+</script>
+
+</body>
+</html>
