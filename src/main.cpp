@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "system_info.hpp"
 #include "policy_engine.hpp"
@@ -21,16 +22,21 @@ int main()
         EventLevel::INFO,
         "SyscallShield starting");
 
-    // Collect system information
+    // -------------------------------
+    // System Information
+    // -------------------------------
+
     SystemInfo system = collectSystemInfo();
 
-    // Initialize policy engine
+    // -------------------------------
+    // Policy Engine
+    // -------------------------------
+
     PolicyEngine engine;
 
     SecurityPolicy policy =
         engine.getDefaultPolicy();
 
-    // Load policy from external configuration
     if (engine.loadPolicyFromFile(
             "../config/default_policy.conf",
             policy))
@@ -48,81 +54,165 @@ int main()
             "Configuration unavailable, using built-in default policy");
     }
 
-    // Initialize security components
+    // -------------------------------
+    // Policy Validation
+    // -------------------------------
+
+    std::string policyError;
+
+    if (engine.validatePolicy(
+            policy,
+            policyError))
+    {
+
+        monitor.log(
+            EventLevel::SECURITY,
+            "Security policy validation successful");
+    }
+    else
+    {
+
+        monitor.log(
+            EventLevel::ERROR,
+            "Security policy validation failed: " + policyError);
+
+        return 1;
+    }
+
+    // -------------------------------
+    // Security Components
+    // -------------------------------
+
     SeccompManager seccompManager;
     CapabilityManager capabilityManager;
     NamespaceManager namespaceManager;
     ProcessManager processManager;
 
-    // Check Linux device driver
+    // -------------------------------
+    // Driver Detection
+    // -------------------------------
+
     bool driverAvailable =
         driverInterface.isDriverAvailable();
 
-    std::cout << "========================================\n";
-    std::cout << "           SYSCALLSHIELD v0.1\n";
-    std::cout << "     Adaptive Linux Runtime Security\n";
-    std::cout << "========================================\n\n";
+    // -------------------------------
+    // System Display
+    // -------------------------------
 
-    // System information
-    std::cout << "[ SYSTEM ]\n";
+    std::cout
+        << "========================================\n";
 
-    std::cout << "OS              : "
-              << system.operatingSystem << '\n';
+    std::cout
+        << "           SYSCALLSHIELD v0.1\n";
 
-    std::cout << "Architecture    : "
-              << system.architecture << '\n';
+    std::cout
+        << "     Adaptive Linux Runtime Security\n";
 
-    std::cout << "Kernel          : "
-              << system.kernelVersion << '\n';
+    std::cout
+        << "========================================\n\n";
 
-    // Policy information
-    std::cout << "\n[ POLICY ENGINE ]\n";
+    std::cout
+        << "[ SYSTEM ]\n";
 
-    std::cout << "Policy Name     : "
-              << policy.name << '\n';
+    std::cout
+        << "OS              : "
+        << system.operatingSystem
+        << '\n';
 
-    std::cout << "Allowed Syscalls: "
-              << policy.allowedSyscalls.size() << '\n';
+    std::cout
+        << "Architecture    : "
+        << system.architecture
+        << '\n';
 
-    std::cout << "Restricted      : "
-              << policy.restrictedSyscalls.size() << '\n';
+    std::cout
+        << "Kernel          : "
+        << system.kernelVersion
+        << '\n';
 
-    std::cout << "\nAllowed Syscalls:\n";
+    // -------------------------------
+    // Policy Display
+    // -------------------------------
 
-    for (const auto &syscall : policy.allowedSyscalls)
+    std::cout
+        << "\n[ POLICY ENGINE ]\n";
+
+    std::cout
+        << "Policy Name     : "
+        << policy.name
+        << '\n';
+
+    std::cout
+        << "Allowed Syscalls: "
+        << policy.allowedSyscalls.size()
+        << '\n';
+
+    std::cout
+        << "Restricted      : "
+        << policy.restrictedSyscalls.size()
+        << '\n';
+
+    std::cout
+        << "\nAllowed Syscalls:\n";
+
+    for (const auto &syscall :
+         policy.allowedSyscalls)
     {
-        std::cout << "  [+] "
-                  << syscall
-                  << '\n';
+
+        std::cout
+            << "  [+] "
+            << syscall
+            << '\n';
     }
 
-    std::cout << "\nRestricted Syscalls:\n";
+    std::cout
+        << "\nRestricted Syscalls:\n";
 
-    for (const auto &syscall : policy.restrictedSyscalls)
+    for (const auto &syscall :
+         policy.restrictedSyscalls)
     {
-        std::cout << "  [-] "
-                  << syscall
-                  << '\n';
+
+        std::cout
+            << "  [-] "
+            << syscall
+            << '\n';
     }
 
-    // Engine status
-    std::cout << "\n[ ENGINE STATUS ]\n";
+    // -------------------------------
+    // Engine Status
+    // -------------------------------
 
-    std::cout << "Policy Engine   : READY\n";
-    std::cout << "Runtime Monitor : READY\n";
+    std::cout
+        << "\n[ ENGINE STATUS ]\n";
 
-    std::cout << "Driver Interface: "
-              << (driverAvailable
-                      ? "AVAILABLE"
-                      : "NOT LOADED")
-              << '\n';
+    std::cout
+        << "Policy Engine   : READY\n";
 
-    std::cout << "Seccomp Module  : READY\n";
-    std::cout << "Capability Mgr  : READY\n";
-    std::cout << "Namespace Mgr   : READY\n";
-    std::cout << "Security Report : READY\n";
+    std::cout
+        << "Runtime Monitor : READY\n";
 
-    // Driver status
+    std::cout
+        << "Driver Interface: "
+        << (driverAvailable
+                ? "AVAILABLE"
+                : "NOT LOADED")
+        << '\n';
+
+    std::cout
+        << "Seccomp Module  : READY\n";
+
+    std::cout
+        << "Capability Mgr  : READY\n";
+
+    std::cout
+        << "Namespace Mgr   : READY\n";
+
+    std::cout
+        << "Security Report : READY\n";
+
+    // -------------------------------
+    // Driver Status
+    // -------------------------------
+
     if (driverAvailable)
     {
 
@@ -142,8 +232,12 @@ int main()
         EventLevel::INFO,
         "Security modules initialized");
 
-    // Protected process
-    std::cout << "\n[ PROTECTED PROCESS ]\n";
+    // -------------------------------
+    // Protected Process
+    // -------------------------------
+
+    std::cout
+        << "\n[ PROTECTED PROCESS ]\n";
 
     monitor.log(
         EventLevel::INFO,
@@ -154,6 +248,10 @@ int main()
             seccompManager,
             capabilityManager,
             namespaceManager);
+
+    // -------------------------------
+    // Process Result
+    // -------------------------------
 
     if (processResult)
     {
@@ -170,11 +268,17 @@ int main()
             "Protected process failed");
     }
 
-    // Determine namespace status
+    // -------------------------------
+    // Namespace Status
+    // -------------------------------
+
     bool namespaceAvailable =
         namespaceManager.getStatus() == "ACTIVE";
 
-    // Generate security report
+    // -------------------------------
+    // Security Report
+    // -------------------------------
+
     SecurityReport report{
         true,
         true,
@@ -183,7 +287,6 @@ int main()
 
     reportManager.setReport(report);
 
-    // Report namespace limitation
     if (!namespaceAvailable)
     {
 
@@ -192,16 +295,25 @@ int main()
             "PID namespace unavailable in current environment");
     }
 
-    // Print final security report
+    // -------------------------------
+    // Print Security Report
+    // -------------------------------
+
     reportManager.printReport();
 
     monitor.log(
         EventLevel::INFO,
         "SyscallShield execution completed");
 
-    std::cout << "\nStatus          : INITIALIZED\n";
+    // -------------------------------
+    // Final Status
+    // -------------------------------
 
-    std::cout << "========================================\n";
+    std::cout
+        << "\nStatus          : INITIALIZED\n";
+
+    std::cout
+        << "========================================\n";
 
     return 0;
 }
