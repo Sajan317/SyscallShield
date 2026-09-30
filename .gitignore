@@ -1,0 +1,29 @@
+# Build directory
+build/
+
+# Compiled executable
+syscallshield
+
+# Object files
+*.o
+*.obj
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Runtime output
+output.txt
+
+# Logs
+logs/*.log
+
+# VS Code
+.vscode/
+
+# Temporary files
+*.tmp
+*.swp
+*~
