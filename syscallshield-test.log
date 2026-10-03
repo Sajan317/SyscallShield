@@ -1,0 +1,115 @@
+[2026-10-04 02:46:19] [INFO] SyscallShield starting
+[2026-10-04 02:46:19] [WARNING] Configuration unavailable, using built-in default policy
+[2026-10-04 02:46:19] [SECURITY] Security policy validation successful
+========================================
+           SYSCALLSHIELD v0.1
+     Adaptive Linux Runtime Security
+========================================
+
+[ SYSTEM ]
+OS              : Linux
+Architecture    : x86_64
+Kernel          : 7.0.0-38-generic
+
+[ POLICY ENGINE ]
+Policy Name     : default
+Allowed Syscalls: 4
+Restricted      : 3
+
+Allowed Syscalls:
+  [+] read
+  [+] write
+  [+] exit
+  [+] exit_group
+
+Restricted Syscalls:
+  [-] ptrace
+  [-] mount
+  [-] reboot
+
+[ ENGINE STATUS ]
+Policy Engine   : READY
+Runtime Monitor : READY
+Driver Interface: NOT LOADED
+Seccomp Module  : READY
+Capability Mgr  : READY
+Namespace Mgr   : READY
+Security Report : READY
+[2026-10-04 02:46:19] [WARNING] SyscallShield driver not loaded
+[2026-10-04 02:46:19] [INFO] Security modules initialized
+
+[ PROTECTED PROCESS ]
+[2026-10-04 02:46:19] [INFO] Starting protected process
+[PROCESS] Protected child started
+[CAPABILITY] Before reduction:
+=
+[CAPABILITY] CAP_NET_RAW dropped
+[CAPABILITY] After reduction:
+=
+[NAMESPACE] PID namespace unavailable in current environment
+
+[ SECCOMP ]
+ptrace restriction configured
+[SECCOMP] Policy applied successfully
+[SECURITY TEST] ptrace blocked
+[SECURITY TEST] errno: 1 (Operation not permitted)
+[2026-10-04 02:46:19] [INFO] SyscallShield starting
+[2026-10-04 02:46:19] [WARNING] Configuration unavailable, using built-in default policy
+[2026-10-04 02:46:19] [SECURITY] Security policy validation successful
+========================================
+           SYSCALLSHIELD v0.1
+     Adaptive Linux Runtime Security
+========================================
+
+[ SYSTEM ]
+OS              : Linux
+Architecture    : x86_64
+Kernel          : 7.0.0-38-generic
+
+[ POLICY ENGINE ]
+Policy Name     : default
+Allowed Syscalls: 4
+Restricted      : 3
+
+Allowed Syscalls:
+  [+] read
+  [+] write
+  [+] exit
+  [+] exit_group
+
+Restricted Syscalls:
+  [-] ptrace
+  [-] mount
+  [-] reboot
+
+[ ENGINE STATUS ]
+Policy Engine   : READY
+Runtime Monitor : READY
+Driver Interface: NOT LOADED
+Seccomp Module  : READY
+Capability Mgr  : READY
+Namespace Mgr   : READY
+Security Report : READY
+[2026-10-04 02:46:19] [WARNING] SyscallShield driver not loaded
+[2026-10-04 02:46:19] [INFO] Security modules initialized
+
+[ PROTECTED PROCESS ]
+[2026-10-04 02:46:19] [INFO] Starting protected process
+[PROCESS] Protected child PID: 9076
+[PROCESS] Protected child exited with status: 2
+[PROCESS] Namespace unavailable reported by child
+[2026-10-04 02:46:19] [SECURITY] Protected process completed successfully
+[2026-10-04 02:46:19] [WARNING] PID namespace unavailable in current environment
+
+========================================
+        SYSCALLSHIELD SECURITY REPORT
+========================================
+Seccomp             : ACTIVE
+Capability Reduction: ACTIVE
+PID Namespace       : UNAVAILABLE
+Protected Process   : COMPLETED
+========================================
+[2026-10-04 02:46:19] [INFO] SyscallShield execution completed
+
+Status          : INITIALIZED
+========================================
