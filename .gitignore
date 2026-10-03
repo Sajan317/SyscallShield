@@ -27,3 +27,13 @@ logs/*.log
 *.tmp
 *.swp
 *~
+
+# Linux kernel driver build artifacts
+driver/*.o
+driver/*.ko
+driver/*.mod
+driver/*.mod.c
+driver/*.mod.o
+driver/.*.cmd
+driver/Module.symvers
+driver/modules.order

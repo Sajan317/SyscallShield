@@ -1,6 +1,6 @@
-[2026-10-04 02:46:19] [INFO] SyscallShield starting
-[2026-10-04 02:46:19] [WARNING] Configuration unavailable, using built-in default policy
-[2026-10-04 02:46:19] [SECURITY] Security policy validation successful
+[2026-10-03 22:07:27] [INFO] SyscallShield starting
+[2026-10-03 22:07:27] [WARNING] Configuration unavailable, using built-in default policy
+[2026-10-03 22:07:27] [SECURITY] Security policy validation successful
 ========================================
            SYSCALLSHIELD v0.1
      Adaptive Linux Runtime Security
@@ -9,7 +9,7 @@
 [ SYSTEM ]
 OS              : Linux
 Architecture    : x86_64
-Kernel          : 7.0.0-38-generic
+Kernel          : 6.6.87.2-microsoft-standard-WSL2
 
 [ POLICY ENGINE ]
 Policy Name     : default
@@ -35,11 +35,11 @@ Seccomp Module  : READY
 Capability Mgr  : READY
 Namespace Mgr   : READY
 Security Report : READY
-[2026-10-04 02:46:19] [WARNING] SyscallShield driver not loaded
-[2026-10-04 02:46:19] [INFO] Security modules initialized
+[2026-10-03 22:07:27] [WARNING] SyscallShield driver not loaded
+[2026-10-03 22:07:27] [INFO] Security modules initialized
 
 [ PROTECTED PROCESS ]
-[2026-10-04 02:46:19] [INFO] Starting protected process
+[2026-10-03 22:07:27] [INFO] Starting protected process
 [PROCESS] Protected child started
 [CAPABILITY] Before reduction:
 =
@@ -53,9 +53,9 @@ ptrace restriction configured
 [SECCOMP] Policy applied successfully
 [SECURITY TEST] ptrace blocked
 [SECURITY TEST] errno: 1 (Operation not permitted)
-[2026-10-04 02:46:19] [INFO] SyscallShield starting
-[2026-10-04 02:46:19] [WARNING] Configuration unavailable, using built-in default policy
-[2026-10-04 02:46:19] [SECURITY] Security policy validation successful
+[2026-10-03 22:07:27] [INFO] SyscallShield starting
+[2026-10-03 22:07:27] [WARNING] Configuration unavailable, using built-in default policy
+[2026-10-03 22:07:27] [SECURITY] Security policy validation successful
 ========================================
            SYSCALLSHIELD v0.1
      Adaptive Linux Runtime Security
@@ -64,7 +64,7 @@ ptrace restriction configured
 [ SYSTEM ]
 OS              : Linux
 Architecture    : x86_64
-Kernel          : 7.0.0-38-generic
+Kernel          : 6.6.87.2-microsoft-standard-WSL2
 
 [ POLICY ENGINE ]
 Policy Name     : default
@@ -90,16 +90,16 @@ Seccomp Module  : READY
 Capability Mgr  : READY
 Namespace Mgr   : READY
 Security Report : READY
-[2026-10-04 02:46:19] [WARNING] SyscallShield driver not loaded
-[2026-10-04 02:46:19] [INFO] Security modules initialized
+[2026-10-03 22:07:27] [WARNING] SyscallShield driver not loaded
+[2026-10-03 22:07:27] [INFO] Security modules initialized
 
 [ PROTECTED PROCESS ]
-[2026-10-04 02:46:19] [INFO] Starting protected process
-[PROCESS] Protected child PID: 9076
+[2026-10-03 22:07:27] [INFO] Starting protected process
+[PROCESS] Protected child PID: 44087
 [PROCESS] Protected child exited with status: 2
 [PROCESS] Namespace unavailable reported by child
-[2026-10-04 02:46:19] [SECURITY] Protected process completed successfully
-[2026-10-04 02:46:19] [WARNING] PID namespace unavailable in current environment
+[2026-10-03 22:07:27] [SECURITY] Protected process completed successfully
+[2026-10-03 22:07:27] [WARNING] PID namespace unavailable in current environment
 
 ========================================
         SYSCALLSHIELD SECURITY REPORT
@@ -109,7 +109,7 @@ Capability Reduction: ACTIVE
 PID Namespace       : UNAVAILABLE
 Protected Process   : COMPLETED
 ========================================
-[2026-10-04 02:46:19] [INFO] SyscallShield execution completed
+[2026-10-03 22:07:27] [INFO] SyscallShield execution completed
 
 Status          : INITIALIZED
 ========================================
